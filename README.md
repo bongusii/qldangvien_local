@@ -42,7 +42,7 @@ Dữ liệu được **mã hoá AES** bằng mật khẩu của người dùng v
 
 ## 🚀 Cách sử dụng
 
-1.  Tải file `quanlydangvien.html` về máy tính của bạn.
+1.  Tải toàn bộ mã nguồn về máy tính của bạn.
 2.  Nhấn đúp chuột vào file để mở bằng trình duyệt (Khuyên dùng Chrome, Firefox, Edge).
 3.  **Lần đầu tiên:**
     * Một cửa sổ "Đã khoá" sẽ hiện ra.
