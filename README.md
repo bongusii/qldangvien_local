@@ -40,19 +40,6 @@ Dữ liệu được **mã hoá AES** bằng mật khẩu của người dùng v
 * **Xác thực Dữ liệu:** Tích hợp tính năng "Dữ liệu thông minh" (Validation) để cảnh báo khi người dùng nhập sai logic (ví dụ: Ngày chính thức trước ngày dự bị, SĐT sai định dạng...).
 * **Tất cả trong Một:** Toàn bộ ứng dụng (HTML, CSS, JS, Thư viện, Hướng dẫn) nằm trong **1 file duy nhất**.
 
-## 📸 Hình ảnh Giao diện
-
-*(Bạn hãy thay thế các dòng dưới đây bằng hình ảnh thực tế của dự án)*
-
-| Màn hình Đăng nhập | Giao diện Chính |
-| :---: | :---: |
-| `[Ảnh chụp màn hình Modal Đăng nhập]` | `[Ảnh chụp màn hình Giao diện chính - image_fef3e4.png]` |
-| **Modal Xem Chi tiết** | **Trang In Hồ sơ (A4)** |
-| `[Ảnh chụp màn hình Modal Xem chi tiết - image_fe0ae3.png]` | `[Ảnh chụp màn hình Trang In]` |
-| **Menu Lọc & Sắp xếp** | **Modal Hướng dẫn** |
-| `[Ảnh chụp màn hình Menu Lọc]` | `[Ảnh chụp màn hình Modal Hướng dẫn]` |
-
-
 ## 🚀 Cách sử dụng
 
 1.  Tải file `quanlydangvien.html` về máy tính của bạn.
