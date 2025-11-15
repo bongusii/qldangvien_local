@@ -63,4 +63,4 @@ Dữ liệu được **mã hoá AES** bằng mật khẩu của người dùng v
 
 ## 🧑‍💻 Tác giả
 
-Phát triển bởi **Phan Hoàng Anh**
+Được phát triển bởi **Phan Hoàng Anh**, theo nhu cầu của Chi bộ Khóm Đông An, phường Long Xuyên, An Giang.
