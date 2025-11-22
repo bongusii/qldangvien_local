@@ -8,17 +8,17 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
     <style>
-        /* (CẬP NHẬT) Thêm các modal mới */
-        #memberModal, #viewModal, #deleteModal, #helpModal, #authModal, #statsModal { 
+        /* (CẬP NHẬT) Thêm #changePasswordModal */
+        #memberModal, #viewModal, #deleteModal, #helpModal, #authModal, #statsModal, #changePasswordModal { 
             display: none;
             opacity: 0;
             transition: opacity 0.3s ease-in-out;
         }
-        #memberModal.show, #viewModal.show, #deleteModal.show, #helpModal.show, #authModal.show, #statsModal.show { 
+        #memberModal.show, #viewModal.show, #deleteModal.show, #helpModal.show, #authModal.show, #statsModal.show, #changePasswordModal.show { 
             display: flex;
             opacity: 1;
         }
-        /* FIX QUAN TRỌNG CHO FILTER: Đảm bảo ẩn ban đầu và độ ưu tiên khi hiển thị */
+        /* FIX: Đảm bảo cả hai menu lọc đều bị ẩn ban đầu bởi CSS custom */
         #filterMenu, #filterMenu213 {
             display: none;
             opacity: 0;
@@ -125,6 +125,11 @@
                     </div>
                     
                     <div class="flex flex-wrap gap-2 justify-end items-center">
+                        <button id="changePasswordBtn" title="Đổi mật khẩu" class="p-2 rounded-full font-semibold shadow-sm transition-all duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 bg-yellow-400 text-white hover:bg-yellow-500 focus:ring-yellow-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                <path fill-rule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3.5 8H6.5V5.5a3.5 3.5 0 117 0V9zM12 11a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
                         <button id="statsBtn" title="Xem Thống kê" class="p-2 rounded-full font-semibold shadow-sm transition-all duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 bg-gray-200 text-gray-700 hover:bg-gray-300 focus:ring-gray-400">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                                 <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z" />
@@ -490,7 +495,35 @@
         </div>
     </div>
 
-
+    <div id="changePasswordModal" class="fixed inset-0 bg-gray-600 bg-opacity-75 overflow-y-auto h-full w-full items-center justify-center p-4 z-50">
+        <div class="relative mx-auto w-full max-w-md shadow-lg rounded-lg bg-white">
+            <form id="changePasswordForm" class="p-6">
+                <h3 class="text-2xl text-center leading-6 font-bold text-gray-900 mb-6">Đổi Mật khẩu</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label for="oldPasswordInput" class="block text-sm font-medium text-gray-700">Mật khẩu cũ</label>
+                        <input type="password" id="oldPasswordInput" class="mt-1 w-full border-gray-300 rounded-md shadow-sm p-2" required>
+                    </div>
+                    <div>
+                        <label for="newPasswordInput" class="block text-sm font-medium text-gray-700">Mật khẩu mới</label>
+                        <input type="password" id="newPasswordInput" class="mt-1 w-full border-gray-300 rounded-md shadow-sm p-2" required>
+                    </div>
+                    <div>
+                        <label for="confirmNewPasswordInput" class="block text-sm font-medium text-gray-700">Xác nhận mật khẩu mới</label>
+                        <input type="password" id="confirmNewPasswordInput" class="mt-1 w-full border-gray-300 rounded-md shadow-sm p-2" required>
+                    </div>
+                </div>
+                <div class="items-center px-4 py-3 mt-6 gap-2 flex justify-end border-t border-gray-200 -mx-6 -mb-6 rounded-b-lg bg-gray-50">
+                    <button type="submit" id="confirmChangePasswordBtn" class="py-2 px-4 rounded-md font-semibold shadow-sm transition-all duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 bg-yellow-500 text-white hover:bg-yellow-600 focus:ring-yellow-400">
+                        Xác nhận Đổi
+                    </button>
+                    <button type="button" id="cancelChangePasswordBtn" class="py-2 px-4 rounded-md font-semibold shadow-sm transition-all duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 bg-transparent text-gray-700 hover:bg-gray-100">
+                        Hủy
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
     <div id="memberModal" class="fixed inset-0 bg-gray-600 bg-opacity-75 overflow-y-auto h-full w-full items-center justify-center p-4">
         <div class="relative mx-auto w-full max-w-2xl shadow-lg rounded-lg bg-white">
             <form id="memberForm" class="p-6">
@@ -648,7 +681,6 @@
                                     <li>Điền các thông tin (SĐT, Học vấn, Chính trị, Chuyên môn...).</li>
                                     <li>Tại mục "Huy hiệu Đảng đã nhận", hãy tích chọn vào các mốc mà Đảng viên đó <em>đã</em> được trao. (Chỉ áp dụng cho Đảng viên Chính thức)</li>
                                     <li>Nhấn <strong>"Lưu"</strong>. Hệ thống sẽ tự động kiểm tra lỗi (ví dụ: Ngày chính thức trước ngày dự bị) trước khi lưu.</li>
-                                    <li>Đối với <strong>Đảng viên 213</strong>, các thao tác được thực hiện tương tự.</li>
                                 </ol>
                             </div>
                             <div>
@@ -679,9 +711,9 @@
                                 <h5 class="font-semibold text-gray-800">Nút "Sắp xếp & Lọc" (hình cái phễu)</h5>
                                 <p>Nhấn vào nút này để mở menu tùy chọn:</p>
                                 <ul class="list-disc list-inside ml-4 space-y-1">
-                                    <li><strong>Sắp xếp theo:</strong> Xếp danh sách theo Tuổi Đảng (Cao-Thấp hoặc Thấp-Cao) và Họ tên (A-Z hoặc Z-A).</li>
-                                    <li><strong>Lọc theo Giới tính:</strong> Chỉ xem Nam, Nữ, hoặc Tất cả.</li>
-                                    <li><strong> Lọc theo Huy hiệu:</strong> Lọc nhanh danh sách "Sắp nhận Huy hiệu".</li>
+                                    <li>**Sắp xếp theo:** Xếp danh sách theo Tuổi Đảng (Cao-Thấp hoặc Thấp-Cao) và Họ tên (A-Z hoặc Z-A).</li>
+                                    <li>**Lọc theo Giới tính:** Chỉ xem Nam, Nữ, hoặc Tất cả.</li>
+                                    <li>**Lọc theo Huy hiệu:** Lọc nhanh danh sách "Sắp nhận Huy hiệu".</li>
                                 </ul>
                             </div>
                             <p><strong>Hiển thị .../trang:</strong> Nằm ở góc dưới bên trái của bảng, cho phép bạn chọn xem 10, 20, 50, hoặc 100 mục trên một trang.</p>
@@ -964,6 +996,13 @@
             const exportCsv213Btn = document.getElementById('exportCsv213Btn');
             const stats213Btn = document.getElementById('stats213Btn');
 
+            // --- DOM ĐỔI MẬT KHẨU MỚI ---
+            const changePasswordBtn = document.getElementById('changePasswordBtn');
+            const changePasswordModal = document.getElementById('changePasswordModal');
+            const changePasswordForm = document.getElementById('changePasswordForm');
+            const cancelChangePasswordBtn = document.getElementById('cancelChangePasswordBtn');
+
+
             // =================================================================================
             // --- 3. HÀM XỬ LÝ DỮ LIỆU & LƯU TRỮ (CORE LOGIC) ---
             // =================================================================================
@@ -1030,12 +1069,69 @@
             
             function saveToLocalStorage() {
                 if (!appKey) { return; }
+                // Lưu lại cả hai mảng dữ liệu (đã được mã hoá bằng appKey hiện tại)
                 saveSpecificData(members, 'partyMembers_encrypted');
                 saveSpecificData(members213, 'partyMembers213_encrypted');
             }
 
             // =================================================================================
-            // --- 4. CÁC HÀM XỬ LÝ CHUNG VÀ RENDER ---
+            // --- 4. HÀM XỬ LÝ ĐỔI MẬT KHẨU (MỚI) ---
+            // =================================================================================
+
+            function openChangePasswordModal() {
+                changePasswordForm.reset();
+                if (changePasswordModal) changePasswordModal.classList.add('show');
+                const oldPassInput = document.getElementById('oldPasswordInput');
+                if (oldPassInput) oldPassInput.focus();
+            }
+
+            function closeChangePasswordModal() {
+                if (changePasswordModal) changePasswordModal.classList.remove('show');
+                if (changePasswordForm) changePasswordForm.reset();
+            }
+
+            function handleChangePasswordSubmit(event) {
+                event.preventDefault();
+
+                const oldPass = document.getElementById('oldPasswordInput').value;
+                const newPass = document.getElementById('newPasswordInput').value;
+                const confirmNewPass = document.getElementById('confirmNewPasswordInput').value;
+
+                if (newPass !== confirmNewPass) {
+                    alert("Lỗi: Mật khẩu mới và Xác nhận mật khẩu mới không khớp.");
+                    return;
+                }
+                if (newPass.length < 1) {
+                     alert("Lỗi: Mật khẩu mới không được để trống.");
+                    return;
+                }
+                if (oldPass !== appKey) {
+                    alert("Lỗi: Mật khẩu cũ không chính xác.");
+                    return;
+                }
+                
+                // --- CRITICAL SECURITY STEP: RE-ENCRYPT DATA ---
+                const oldAppKey = appKey;
+                appKey = newPass;
+
+                try {
+                    // Re-encrypt both datasets and save using the new appKey
+                    saveToLocalStorage(); 
+                    
+                    alert("Đổi mật khẩu thành công! Dữ liệu của bạn đã được mã hoá lại.");
+                    closeChangePasswordModal();
+
+                } catch (e) {
+                    console.error("Lỗi đổi mật khẩu:", e);
+                    // Revert key if re-encryption/saving fails
+                    appKey = oldAppKey;
+                    alert("Lỗi nghiêm trọng khi đổi mật khẩu và mã hoá lại dữ liệu. Mật khẩu vẫn là mật khẩu cũ.");
+                }
+            }
+
+
+            // =================================================================================
+            // --- 5. CÁC HÀM XỬ LÝ CHUNG VÀ RENDER ---
             // =================================================================================
 
             function getUpcomingMedal(ngayVaoDang, receivedMedals = []) {
@@ -1656,7 +1752,7 @@
 
             function openBulkDeleteModal() {
                 const currentTableBody = currentTab === 'main' ? memberTableBody : member213TableBody;
-                const selectedCheckboxes = currentTableBody.querySelectorAll(`.member-checkbox[data-tab="${currentTab}"]:checked`);
+                const selectedCheckboxes = currentTableBody.querySelectorAll('.member-checkbox[data-tab="' + currentTab + '"]:checked');
                 const selectedIds = Array.from(selectedCheckboxes).map(cb => parseInt(cb.dataset.id));
                 
                 if (selectedIds.length === 0) { alert('Bạn chưa chọn mục nào để xóa.'); return; }
@@ -2031,10 +2127,6 @@
                 if (e.key === 'Enter') { handleLoginAttempt(); }
             });
 
-            if (helpBtn) helpBtn.addEventListener('click', () => { 
-                if(helpModal) helpModal.classList.add('show');
-            });
-
             document.querySelectorAll('.tab-button').forEach(button => {
                 button.addEventListener('click', () => switchTab(button.dataset.tab));
             });
@@ -2073,7 +2165,7 @@
             if (stats213Btn) stats213Btn.addEventListener('click', () => openStatsModal('213'));
             
             if (filterMenu213Btn && filterMenu213) {
-                // FIX: Đã đổi 'hidden' thành 'show' để khớp với CSS transition
+                // FIX: Sử dụng toggle('show') và !important để đảm bảo hiển thị
                 filterMenu213Btn.addEventListener('click', (e) => { e.stopPropagation(); filterMenu213.classList.toggle('show'); });
                 filterMenu213.addEventListener('change', (e) => {
                     if (e.target.name === 'sort213') { currentSort = e.target.value; }
@@ -2082,6 +2174,12 @@
                     currentPage = 1; applyFiltersAndRender();
                 });
             }
+
+            // GÁN SỰ KIỆN ĐỔI MẬT KHẨU (MỚI)
+            if (changePasswordBtn) changePasswordBtn.addEventListener('click', openChangePasswordModal);
+            if (cancelChangePasswordBtn) cancelChangePasswordBtn.addEventListener('click', closeChangePasswordModal);
+            if (changePasswordForm) changePasswordForm.addEventListener('submit', handleChangePasswordSubmit);
+
 
             // Xử lý Select All (dùng chung cho cả 2 tab)
             function handleSelectAll(event, tab) {
